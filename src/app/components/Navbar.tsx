@@ -9,6 +9,12 @@ export default async function Navbar() {
   const user = await currentUser()
   if(user) await syncUser()
 
+    const userData = user
+    ? {
+        username: user.username || undefined,
+        email: user.emailAddresses[0]?.emailAddress || "",
+      }
+    : null;
 
   return (
     <nav className='sticky top-0 w-full border-b bg-background/95 backdrop:blur supports-[backdrop-filter]::bg-background/60 z-50'>
@@ -20,7 +26,7 @@ export default async function Navbar() {
             </Link>
           </div>
           <DesktopNavbar/>
-          <MobileNavbar/>
+          <MobileNavbar user={userData}/>
         </div>
       </div>
     </nav>

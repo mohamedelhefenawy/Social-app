@@ -3,14 +3,14 @@ import React from 'react'
 import CreatePosts from './components/CreatePosts'
 import Whotofollow from './components/Whotofollow'
 // import Postcard from './components/Postcard'
-import { getposts } from '../actions/post.action'
+import { getPosts } from '../actions/post.action'
 import PostCard from './components/Postcard'
 
 
 
 export default async function Home() {
   const user  = await currentUser()
-  const posts  =  await getposts()
+  const posts  =  await getPosts()
   // console.log({posts})
   return (
     <div className='grid grid-cols-1 lg:grid-cols-10 gap-6'>

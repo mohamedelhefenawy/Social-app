@@ -25,55 +25,56 @@ try{
 }   
 
 
-export async function getposts(){
-   try{
-   const post = await prisma.post.findMany({
-        orderBy:{
-            createdAt:'desc'
+export async function getPosts() {
+    try {
+      const posts = await prisma.post.findMany({
+        orderBy: {
+          createdAt: "desc",
         },
-        include:{
-            author:{
-                select:{
-                    name:true,
-                    image:true,
-                    username:true,
-                }
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+              username: true,
             },
-            comments:{
-                include:{
-                    author:{
-                        select:{
-                            id:true,
-                            name:true,
-                            username:true,
-                            image:true
-                        }
-                    }
-                }
-                ,orderBy:{
-                    createdAt:'asc'
-                }
+          },
+          comments: {
+            include: {
+              author: {
+                select: {
+                  id: true,
+                  username: true,
+                  image: true,
+                  name: true,
+                },
+              },
             },
-            likes:{
-               select:{
-                userId:true,
-                
-               }
+            orderBy: {
+              createdAt: "asc",
             },
-            _count:{
-                select:{
-                    likes:true,
-                    comments:true
-                }
-            }
-           
-        }
-    })
-    return post
-   }catch(error){
-       console.log('Error in getposts',error)
-   } 
-}
+          },
+          likes: {
+            select: {
+              userId: true,
+            },
+          },
+          _count: {
+            select: {
+              likes: true,
+              comments: true,
+            },
+          },
+        },
+      });
+  
+      return posts;
+    } catch (error) {
+      console.log("Error in getPosts", error);
+      throw new Error("Failed to fetch posts");
+    }
+  }
 
 
 export async function togglelikes(postId:string) {
@@ -183,26 +184,26 @@ export async function togglecomment(postId:string,content:string) {
 }
 
 
-export async function DeletePost (postId:string){
-   
-    try{
-        const userId = await getDBUserId();
-        
-        const post = await prisma.post.findUnique({
-        where:{id:postId},
-        select:{authorId:true}
-    } )
-    if(!post) throw new Error('Post not found');
-    if(post.authorId !== userId) throw new Error('You are not authorized to delete this post');
-
-    await prisma.post.delete({
-        where:{id:postId}
-    })
-    
-revalidatePath('/')
-return {success:true}
-}catch(error){
-    console.log('Error in DeletePost',error)
-    return {success:false,error}
-}
-}
+export async function DeletePost(postId: string) {
+    try {
+      const userId = await getDBUserId();
+  
+      const post = await prisma.post.findUnique({
+        where: { id: postId },
+        select: { authorId: true },
+      });
+  
+      if (!post) throw new Error("Post not found");
+      if (post.authorId !== userId) throw new Error("Unauthorized - no delete permission");
+  
+      await prisma.post.delete({
+        where: { id: postId },
+      });
+  
+      revalidatePath("/"); // purge the cache
+      return { success: true };
+    } catch (error) {
+      console.error("Failed to delete post:", error);
+      return { success: false, error: "Failed to delete post" };
+    }
+  }

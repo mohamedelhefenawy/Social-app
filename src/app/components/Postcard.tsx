@@ -1,6 +1,6 @@
 "use client";
 
-import { togglecomment, DeletePost, getposts, togglelikes } from "@/src/actions/post.action";
+import { togglecomment, DeletePost, getPosts, togglelikes } from "@/src/actions/post.action";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -14,7 +14,7 @@ import { HeartIcon, LogInIcon, MessageCircleIcon, SendIcon } from "lucide-react"
 import { Textarea } from "./ui/textarea";
 import Image from "next/image";
 
-type Posts = Awaited<ReturnType<typeof getposts>>;
+type Posts = Awaited<ReturnType<typeof getPosts>>;
 type Post = Posts[number];
 
 function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
@@ -190,7 +190,7 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
               {user ? (
                 <div className="flex space-x-3">
                   <Avatar className="size-8 flex-shrink-0">
-                    <AvatarImage src={user?.imageUrl || "../../public/avatar.png"} />
+                    <AvatarImage src={user?.imageUrl || "/avatar.png"} />
                   </Avatar>
                   <div className="flex-1">
                     <Textarea
