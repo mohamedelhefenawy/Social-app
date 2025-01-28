@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ThemeProvider } from "@/src/app/components/ThemeProvider";
 
-const Custom404 = () => {
+const NotFound = () => {
   return (
     <ThemeProvider attribute={'class'}  defaultTheme="system" enableSystem disableTransitionOnChange>
   {/* Animated Text */}
@@ -65,6 +65,6 @@ const Custom404 = () => {
   );
 };
 
-export default Custom404;
+export default NotFound;
 
 
