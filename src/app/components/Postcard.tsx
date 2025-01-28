@@ -190,7 +190,7 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
               {user ? (
                 <div className="flex space-x-3">
                   <Avatar className="size-8 flex-shrink-0">
-                    <AvatarImage src={user?.imageUrl || "/avatar.png"} />
+                    <AvatarImage src={user?.imageUrl || "../../public/avatar.png"} />
                   </Avatar>
                   <div className="flex-1">
                     <Textarea

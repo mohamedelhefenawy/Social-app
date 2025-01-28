@@ -15,6 +15,7 @@ const clerkkey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 if (!clerkkey) {
   throw new Error("Missing Clerk publishable key. Please set NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY.");
 }
+console.log(clerkkey)
 
 export default function RootLayout({
   children,
