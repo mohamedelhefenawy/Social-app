@@ -165,7 +165,7 @@ function ProfilePageClient({
                         }
                         className="hover:underline break-all"
                         target="_blank"
-                        rel="noopener noreferrer"
+                        rel="no website shown"
                       >
                         {user.website}
                       </a>
