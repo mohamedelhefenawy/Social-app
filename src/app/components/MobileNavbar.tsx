@@ -9,14 +9,19 @@ import {
 } from "lucide-react";
 import { Button } from "@/src/app/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/src/app/components/ui/sheet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth, SignInButton, SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 import ModeToggle from "./ModeToggle";
+import { usePathname } from "next/navigation";
 
 export default function MobileNavbar({ user }: { user: { username?: string; email: string } | null }) {
   const [showmobilemenu, setShowMobileMenu] = useState(false);
   const { isSignedIn } = useAuth();
+  const pathname = usePathname()
+  useEffect(()=>{
+    setShowMobileMenu(false)
+  },[pathname])
 
   return (
     <div className="flex md:hidden items-center space-x-2">
