@@ -4,11 +4,11 @@ import { useMediaQuery } from "usehooks-ts";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-interface prop{
+interface props{
     children : React.ReactNode
 }
 
-export default function Followonmobile({children}:prop) {
+export default function Followonmobile({children}:props) {
   const isMobile = useMediaQuery("(max-width: 768px)"); // Mobile breakpoint
   const router = useRouter();
 
