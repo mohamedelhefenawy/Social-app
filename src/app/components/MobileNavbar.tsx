@@ -17,6 +17,7 @@ import { usePathname } from "next/navigation";
 
 export default function MobileNavbar({ user }: { user: { username?: string; email: string } | null }) {
   const [showmobilemenu, setShowMobileMenu] = useState(false);
+
   const pathname = usePathname()
   useEffect(()=>{
     setShowMobileMenu(false)
@@ -68,11 +69,14 @@ export default function MobileNavbar({ user }: { user: { username?: string; emai
                 </SignOutButton>
               </>
             ) : (
+              <>
               <SignInButton mode="redirect">
                 <Button variant="default" className="w-full">
                   Sign In
                 </Button>
               </SignInButton>
+
+              </>
             )}
           </nav>
         </SheetContent>
