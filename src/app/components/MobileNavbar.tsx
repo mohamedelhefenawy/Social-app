@@ -6,7 +6,7 @@ import {
   LogOutIcon,
   MenuIcon,
   UserIcon,
-  
+  UserPlus
 } from "lucide-react";
 import { Button } from "@/src/app/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/src/app/components/ui/sheet";
@@ -50,6 +50,12 @@ export default function MobileNavbar({ user }: { user: { username?: string; emai
                   <Link href="/notifications">
                     <BellIcon className="w-4 h-4" />
                     Notifications
+                  </Link>
+                </Button>
+                <Button variant="ghost" className="flex items-center gap-3 justify-start" asChild>
+                  <Link href="/follow">
+                    <UserPlus className="w-4 h-4" />
+                    Follow
                   </Link>
                 </Button>
                
