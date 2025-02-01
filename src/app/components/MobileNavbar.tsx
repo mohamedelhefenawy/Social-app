@@ -6,6 +6,7 @@ import {
   LogOutIcon,
   MenuIcon,
   UserIcon,
+  
 } from "lucide-react";
 import { Button } from "@/src/app/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/src/app/components/ui/sheet";
@@ -51,6 +52,7 @@ export default function MobileNavbar({ user }: { user: { username?: string; emai
                     Notifications
                   </Link>
                 </Button>
+               
                 <Button variant="ghost" className="flex items-center gap-3 justify-start" asChild>
                   <Link
                     href={`/profile/${
