@@ -10,14 +10,13 @@ import {
 import { Button } from "@/src/app/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/src/app/components/ui/sheet";
 import { useEffect, useState } from "react";
-import { useAuth, SignInButton, SignOutButton } from "@clerk/nextjs";
+import {  SignInButton, SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 import ModeToggle from "./ModeToggle";
 import { usePathname } from "next/navigation";
 
 export default function MobileNavbar({ user }: { user: { username?: string; email: string } | null }) {
   const [showmobilemenu, setShowMobileMenu] = useState(false);
-  const { isSignedIn } = useAuth();
   const pathname = usePathname()
   useEffect(()=>{
     setShowMobileMenu(false)
@@ -43,7 +42,7 @@ export default function MobileNavbar({ user }: { user: { username?: string; emai
                 Home
               </Link>
             </Button>
-            {isSignedIn ? (
+            {user ? (
               <>
                 <Button variant="ghost" className="flex items-center gap-3 justify-start" asChild>
                   <Link href="/notifications">
@@ -69,7 +68,7 @@ export default function MobileNavbar({ user }: { user: { username?: string; emai
                 </SignOutButton>
               </>
             ) : (
-              <SignInButton mode="modal">
+              <SignInButton mode="redirect">
                 <Button variant="default" className="w-full">
                   Sign In
                 </Button>
