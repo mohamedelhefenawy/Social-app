@@ -10,9 +10,17 @@ import { Avatar, AvatarImage } from "./ui/avatar";
 import { formatDistanceToNow } from "date-fns";
 import DeleteAlert  from "./DeleteAlert";
 import { Button } from "./ui/button";
-import { HeartIcon, LogInIcon, MessageCircleIcon, SendIcon } from "lucide-react";
+import { HeartIcon, LogInIcon, MessageCircleIcon, SendIcon, SmileIcon } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import Image from "next/image";
+import Picker from 'emoji-picker-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu"
+
 
 type Posts = Awaited<ReturnType<typeof getPosts>>;
 type Post = Posts[number];
@@ -26,6 +34,8 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
   const [hasLiked, setHasLiked] = useState(post.likes.some((like) => like.userId === dbUserId));
   const [optimisticLikes, setOptmisticLikes] = useState(post._count.likes);
   const [showComments, setShowComments] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  
 
   const handleLike = async () => {
     if (isLiking) return;
@@ -51,6 +61,7 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
       if (result?.success) {
         toast.success("Comment posted successfully");
         setNewComment("");
+        setShowEmojiPicker(false)
       }
     } catch (error) {
       toast.error("Failed to add comment");
@@ -77,6 +88,10 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  const onEmojiClick = (event, emojiObject) => {
+    setNewComment((prevContent) => prevContent + event.emoji);
   };
 
   return (
@@ -164,11 +179,11 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
 
           {/* COMMENTS SECTION */}
           {showComments && (
-            <div className="space-y-4 pt-4 border-t">
-              <div className="space-y-4">
+            <div className="space-y-4 pt-4 border-t ">
+              <div className="space-y-4 ">
                 {/* DISPLAY COMMENTS */}
                 {post.comments.map((comment) => (
-                  <div key={comment.id} className="flex space-x-3">
+                  <div key={comment.id} className="flex space-x-3 ">
                     <Avatar className="size-8 flex-shrink-0">
                       <AvatarImage src={comment.author.image ?? "/avatar.png"} />
                     </Avatar>
@@ -201,7 +216,7 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
                       onChange={(e) => setNewComment(e.target.value)}
                       className="min-h-[80px] resize-none"
                     />
-                    <div className="flex justify-end mt-2">
+                    <div className="flex justify-end mt-2 space-x-2 relative">
                       <Button
                         size="sm"
                         onClick={handleAddComment}
@@ -217,6 +232,24 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
                           </>
                         )}
                       </Button>
+                      <DropdownMenu open={showEmojiPicker} onOpenChange={setShowEmojiPicker}>
+  <DropdownMenuTrigger>
+    <SmileIcon className="size-4" />
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem
+      onClick={(e) => {
+        e.stopPropagation(); // Prevent the dropdown from closing
+      }}
+    >
+      <Picker onEmojiClick={onEmojiClick} width={250} height={350} />
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+
+
+
+
                     </div>
                   </div>
                 </div>

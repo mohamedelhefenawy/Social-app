@@ -5,17 +5,17 @@ import { Card, CardContent } from './ui/card';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
-import {  Loader2Icon, SendIcon } from 'lucide-react';
+import { Loader2Icon, SendIcon, SmileIcon } from 'lucide-react';
 import { CreatePost } from '@/src/actions/post.action';
 import toast from 'react-hot-toast';
-// import ImageUpload from './ImageUpload';
+import Picker from 'emoji-picker-react';
 
 export default function CreatePosts() {
   const { user } = useUser();
   const [content, setContent] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [isPosting, setIsPosting] = useState(false);
-  // const [showImageUpload, setShowImageUpload] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const handleSubmit = async () => {
     if (!content.trim() && !imageUrl) return;
@@ -26,8 +26,8 @@ export default function CreatePosts() {
       if (result?.success) {
         setContent('');
         setImageUrl('');
-        // setShowImageUpload(false);
         toast.success('Post created successfully!');
+        setShowEmojiPicker(false)
       } else {
         toast.error('Failed to create post');
       }
@@ -36,7 +36,12 @@ export default function CreatePosts() {
       toast.error('An unexpected error occurred');
     } finally {
       setIsPosting(false);
+      
     }
+  };
+
+  const onEmojiClick = (event, emojiObject) => {
+    setContent((prevContent) => prevContent + event.emoji);
   };
 
   return (
@@ -54,40 +59,31 @@ export default function CreatePosts() {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               disabled={isPosting}
-              maxLength={500} // Add character limit
+              maxLength={500}
             />
           </div>
 
-          {/* Image Upload */}
-          {/* {(showImageUpload || imageUrl) && (
-            <div className="border rounded-lg p-4">
-              <ImageUpload
-                endpoint="postImage"
-                value={imageUrl}
-                onChange={(url) => {
-                  setImageUrl(url);
-                  if (!url) setShowImageUpload(false);
-                }}
-              />
-            </div>
-          )} */}
+          {/* Emoji Picker */}
+          <div className="flex justify-end relative">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowEmojiPicker((prev) => !prev)}
+              disabled={isPosting}
+              aria-label="Toggle emoji picker"
+            >
+              <SmileIcon className="size-4" />
+            </Button>
+
+            {showEmojiPicker && (
+              <div className="absolute z-50 top-16 right-0 max-h-[400px] overflow-y-auto">
+                <Picker onEmojiClick={onEmojiClick} width={250} height={350}/>
+              </div>
+            )}
+          </div>
 
           {/* Footer */}
           <div className="flex items-center justify-between border-t pt-4">
-            <div className="flex space-x-2">
-              {/* <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground hover:text-primary"
-                onClick={() => setShowImageUpload(!showImageUpload)}
-                disabled={isPosting}
-                aria-label="Toggle image upload"
-              >
-                <ImageIcon className="size-4 mr-2" />
-                Photo
-              </Button> */}
-            </div>
             <Button
               className="flex items-center"
               onClick={handleSubmit}
@@ -95,16 +91,11 @@ export default function CreatePosts() {
               aria-label="Submit post"
             >
               {isPosting ? (
-                <>
-                  <Loader2Icon className="size-4 mr-2 animate-spin" />
-                  Posting...
-                </>
+                <Loader2Icon className="size-4 mr-2 animate-spin" />
               ) : (
-                <>
-                  <SendIcon className="size-4 mr-2" />
-                  Post
-                </>
+                <SendIcon className="size-4 mr-2" />
               )}
+              Post
             </Button>
           </div>
         </div>
