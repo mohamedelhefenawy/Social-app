@@ -46,7 +46,7 @@ export default function CreatePosts() {
           {/* Header */}
           <div className="flex space-x-4">
             <Avatar className="w-10 h-10">
-              <AvatarImage src={user?.imageUrl || '/avatar.png'} className="rounded-full"  />
+              <AvatarImage src={user?.imageUrl || '/avatar.png'} className="rounded-full" />
             </Avatar>
             <Textarea
               placeholder="What's on your mind?"
