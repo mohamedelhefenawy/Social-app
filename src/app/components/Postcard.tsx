@@ -61,6 +61,8 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
     }
   };
 
+  console.log(post)
+
   const handleDeletePost = async () => {
     if (isDeleting) return;
     try {
@@ -115,8 +117,8 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
 
           {/* POST IMAGE */}
           {post.image && (
-            <div className="rounded-lg overflow-hidden">
-              <Image src={post.image} alt="Post content" className="w-full h-auto object-cover" />
+            <div className=" rounded-lg overflow-hidden">
+              <Image src={post.image} alt="Post content" className="w-full h-auto object-cover" fill/>
             </div>
           )}
 

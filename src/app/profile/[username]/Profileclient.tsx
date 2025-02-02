@@ -51,7 +51,7 @@ function ProfilePageClient({
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [isFollowing, setIsFollowing] = useState(initialIsFollowing);
   const [isUpdatingFollow, setIsUpdatingFollow] = useState(false);
-
+  const [showcolor , setShowColor] = useState('posts') 
   const [editForm, setEditForm] = useState({
     name: user.name || "",
     bio: user.bio || "",
@@ -101,7 +101,7 @@ function ProfilePageClient({
             <CardContent className="pt-6">
               <div className="flex flex-col items-center text-center">
                 <Avatar className="w-24 h-24">
-                  <AvatarImage src={user.image ?? "/avatar.png"} />
+                  <AvatarImage src={user.image ?? "/avatar.png"}  />
                 </Avatar>
                 <h1 className="mt-4 text-2xl font-bold">{user.name ?? user.username}</h1>
                 <p className="text-muted-foreground">@{user.username}</p>
@@ -185,18 +185,20 @@ function ProfilePageClient({
           <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent">
             <TabsTrigger
               value="posts"
+              onClick={()=>setShowColor('posts')}
               className="flex items-center gap-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary
                data-[state=active]:bg-transparent px-6 font-semibold"
             >
-              <FileTextIcon className="size-4" />
+              <FileTextIcon className={`size-4 ${showcolor === "posts" ? "text-blue-500" : ""}`} />
               Posts
             </TabsTrigger>
             <TabsTrigger
               value="likes"
+              onClick={()=>setShowColor('likes')}
               className="flex items-center gap-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary
                data-[state=active]:bg-transparent px-6 font-semibold"
             >
-              <HeartIcon className="size-4" />
+              <HeartIcon className={`size-4 ${showcolor === "likes" ? "text-red-500 fill-red-500" : ""}`}   />
               Likes
             </TabsTrigger>
           </TabsList>
@@ -243,8 +245,9 @@ function ProfilePageClient({
                   name="bio"
                   value={editForm.bio}
                   onChange={(e) => setEditForm({ ...editForm, bio: e.target.value })}
-                  className="min-h-[100px]"
+                  className="min-h-[100px] resize-none"
                   placeholder="Tell us about yourself"
+                  
                 />
               </div>
               <div className="space-y-2">
