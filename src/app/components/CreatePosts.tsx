@@ -40,8 +40,8 @@ export default function CreatePosts() {
     }
   };
 
-  const onEmojiClick = (event, emojiObject) => {
-    setContent((prevContent) => prevContent + event.emoji);
+  const onEmojiClick = (event:string) => {
+    setContent((prevContent) => prevContent + event);
   };
 
   return (
@@ -77,7 +77,7 @@ export default function CreatePosts() {
 
             {showEmojiPicker && (
               <div className="absolute z-50 top-16 right-0 max-h-[400px] overflow-y-auto">
-                <Picker onEmojiClick={onEmojiClick} width={250} height={350}/>
+                <Picker onEmojiClick={(e)=>onEmojiClick(e.emoji)} width={250} height={350}/>
               </div>
             )}
           </div>

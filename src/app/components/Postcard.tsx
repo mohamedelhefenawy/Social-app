@@ -90,10 +90,11 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
     }
   };
 
-  const onEmojiClick = (event, emojiObject) => {
-    setNewComment((prevContent) => prevContent + event.emoji);
+  const onEmojiClick = (emoji: string) => {
+    // Use the emoji string directly to update the comment
+    setNewComment((prevContent) => prevContent + emoji);
   };
-
+  
   return (
     <Card className="overflow-hidden">
       <CardContent className="p-4 sm:p-6">
@@ -242,7 +243,7 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
         e.stopPropagation(); // Prevent the dropdown from closing
       }}
     >
-      <Picker onEmojiClick={onEmojiClick} width={250} height={350} />
+      <Picker onEmojiClick={(emojiObject) => onEmojiClick(emojiObject.emoji)} width={250} height={350} />
     </DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>
